@@ -7,12 +7,13 @@ pipeline {
     }
 
     stages {
+
         stage('Check Docker') {
             steps {
                 sh 'docker ps'
             }
-        )
-            
+        }
+        
         stage('Checkout') {
             steps {
                 checkout scm
@@ -22,7 +23,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh '/usr/bin/docker build -t ${DOCKER_IMAGE} .'
+                    sh 'docker build -t ${DOCKER_IMAGE} .'
                 }
             }
         }
@@ -31,9 +32,9 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    /usr/bin/docker stop ${CONTAINER_NAME} || true
-                    /usr/bin/docker rm ${CONTAINER_NAME} || true
-                    /usr/bin/docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE}
+                    docker stop ${CONTAINER_NAME} || true
+                    docker rm ${CONTAINER_NAME} || true
+                    docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE}
                     '''
                 }
             }
@@ -54,7 +55,7 @@ pipeline {
         }
         cleanup {
             script {
-                sh '/usr/bin/docker stop ${CONTAINER_NAME} || true && docker rm ${CONTAINER_NAME} || true'
+                sh 'docker stop ${CONTAINER_NAME} || true && docker rm ${CONTAINER_NAME} || true'
             }
         }
     }
