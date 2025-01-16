@@ -6,6 +6,13 @@ pipeline {
         CONTAINER_NAME = 'apache-site'
     }
 
+    agent {
+        docker {
+            image 'jenkins/agent:latest'
+            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
+
     stages {
         stage('Checkout') {
             steps {
