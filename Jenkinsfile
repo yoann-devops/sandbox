@@ -7,19 +7,18 @@ pipeline {
     }
 
     stages {
-
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+        
         stage('Check Docker') {
             steps {
                 sh 'docker ps'
             }
         }
         
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
