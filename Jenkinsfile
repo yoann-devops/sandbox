@@ -10,7 +10,9 @@ pipeline {
         stage('Check Docker') {
             steps {
                 sh 'docker ps'
-        }
+            }
+        )
+            
         stage('Checkout') {
             steps {
                 checkout scm
