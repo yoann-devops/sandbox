@@ -60,12 +60,12 @@ pipeline {
                     
                     // Ajouter un retry pour tester le serveur
                     retry(3) {
-                        echo "Tentative de connexion au serveur HTTPS (${env.CONTAINER_IP})"
+                        echo "Tentative de connexion au serveur HTTP (${env.CONTAINER_IP})"
                         def response = sh(
-                            script: "curl -Ik https://${env.CONTAINER_IP}:80",
+                            script: "curl -Ik http://${env.CONTAINER_IP}:80",
                             returnStdout: true
                         ).trim()
-                        echo "Réponse du serveur HTTPS : ${response}"
+                        echo "Réponse du serveur HTTP : ${response}"
                     }
                 }
             }
