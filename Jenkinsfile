@@ -54,8 +54,8 @@ pipeline {
         stage('Wait and Test HTTPS Server') {
             steps {
                 script {
-                    // Attendre 10 secondes pour que le serveur démarre
-                    echo "Attente de 10 secondes pour que le serveur démarre..."
+                    // Attendre 30 secondes pour que le serveur démarre
+                    echo "Attente de 30 secondes pour que le serveur démarre..."
                     sleep 30
                     
                     // Ajouter un retry pour tester le serveur
@@ -66,7 +66,17 @@ pipeline {
                             returnStdout: true
                         ).trim()
                         echo "Réponse du serveur HTTP : ${response}"
-                    }
+                    }                    
+                }
+            }
+        }
+
+        stage('Wait and Test HTTPS Server') {
+            steps {
+                script {
+                    // Attendre 30 secondes pour que le serveur démarre
+                    echo "Attente de 30 secondes pour que le serveur démarre..."
+                    sleep 30
                 }
             }
         }
