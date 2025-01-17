@@ -50,6 +50,26 @@ pipeline {
                 }
             }
         }
+
+        stage('Wait and Test HTTPS Server') {
+            steps {
+                script {
+                    // Attendre 10 secondes pour que le serveur démarre
+                    echo "Attente de 10 secondes pour que le serveur démarre..."
+                    sleep 20
+                    
+                    // Ajouter un retry pour tester le serveur
+                    retry(3) {
+                        echo "Tentative de connexion au serveur HTTPS (${env.CONTAINER_IP})"
+                        def response = sh(
+                            script: "curl -Ik https://${env.CONTAINER_IP}:443",
+                            returnStdout: true
+                        ).trim()
+                        echo "Réponse du serveur HTTPS : ${response}"
+                    }
+                }
+            }
+        }
         
         stage('Test HTTPS Server') {
             steps {
