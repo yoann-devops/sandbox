@@ -71,7 +71,7 @@ pipeline {
             }
         }
 
-        stage('Wait and Test HTTPS Server') {
+        stage('Wait and Test HTTPS Server stage2') {
             steps {
                 script {
                     // Attendre 30 secondes pour que le serveur démarre
