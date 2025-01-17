@@ -56,7 +56,7 @@ pipeline {
                 script {
                     // Tester le serveur avec l'IP récupérée
                     def response = sh(
-                        script: "curl -Ik https://${env.CONTAINER_IP}:80",
+                        script: "curl -Ik http://${env.CONTAINER_IP}:80",
                         returnStdout: true
                     ).trim()
                     echo "Réponse du serveur HTTPS : ${response}"
