@@ -99,9 +99,11 @@ pipeline {
         }
                 
         stage('Verify Deployment') {
-            steps {
-                script {
-                    sh 'curl -I http://${env.CONTAINER_IP}:80'
+            retry(3) {
+                steps {
+                    script {
+                        sh 'curl -I http://${env.CONTAINER_IP}:80'
+                    }
                 }
             }
         }
