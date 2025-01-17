@@ -72,24 +72,28 @@ pipeline {
         }
 
         stage('Wait and Test HTTPS Server stage2') {
-            steps {
-                script {
-                    // Attendre 30 secondes pour que le serveur démarre
-                    echo "Attente de 30 secondes pour que le serveur démarre..."
-                    sleep 30
+            steps { 
+                retry(3) {
+                    script {
+                        // Attendre 30 secondes pour que le serveur démarre
+                        echo "Attente de 30 secondes pour que le serveur démarre..."
+                        sleep 30
+                    }
                 }
             }
         }
         
         stage('Test HTTPS Server') {
             steps {
-                script {
-                    // Tester le serveur avec l'IP récupérée
-                    def response = sh(
-                        script: "curl -Ik http://${env.CONTAINER_IP}:80",
-                        returnStdout: true
-                    ).trim()
-                    echo "Réponse du serveur HTTPS : ${response}"
+                retry(3) {
+                    script {
+                        // Tester le serveur avec l'IP récupérée
+                        def response = sh(
+                            script: "curl -Ik http://${env.CONTAINER_IP}:80",
+                            returnStdout: true
+                        ).trim()
+                        echo "Réponse du serveur HTTPS : ${response}"
+                    }
                 }
             }
         }
