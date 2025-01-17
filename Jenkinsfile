@@ -56,7 +56,7 @@ pipeline {
                 script {
                     // Tester le serveur avec l'IP récupérée
                     def response = sh(
-                        script: "curl -Ik https://${env.CONTAINER_IP}:10080",
+                        script: "curl -Ik https://${env.CONTAINER_IP}:80",
                         returnStdout: true
                     ).trim()
                     echo "Réponse du serveur HTTPS : ${response}"
@@ -67,7 +67,7 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    sh 'curl -I http://${env.CONTAINER_IP}:10080'
+                    sh 'curl -I http://${env.CONTAINER_IP}:80'
                 }
             }
         }
