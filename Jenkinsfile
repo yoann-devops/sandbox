@@ -38,11 +38,36 @@ pipeline {
                 }
             }
         }
-
+        stage('Get Container IP') {
+            steps {
+                script {
+                    // Récupérer l'adresse IP du conteneur
+                    env.CONTAINER_IP = sh(
+                        script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mon_serveur_https_container",
+                        returnStdout: true
+                    ).trim()
+                    echo "Adresse IP du conteneur : ${env.CONTAINER_IP}"
+                }
+            }
+        }
+        
+        stage('Test HTTPS Server') {
+            steps {
+                script {
+                    // Tester le serveur avec l'IP récupérée
+                    def response = sh(
+                        script: "curl -Ik https://${env.CONTAINER_IP}:10080",
+                        returnStdout: true
+                    ).trim()
+                    echo "Réponse du serveur HTTPS : ${response}"
+                }
+            }
+        }
+                
         stage('Verify Deployment') {
             steps {
                 script {
-                    sh 'curl -I http://localhost:10080'
+                    sh 'curl -I http://${env.CONTAINER_IP}:10080'
                 }
             }
         }
