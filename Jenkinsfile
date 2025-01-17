@@ -43,7 +43,7 @@ pipeline {
                 script {
                     // Récupérer l'adresse IP du conteneur
                     env.CONTAINER_IP = sh(
-                        script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' mon_serveur_https_container",
+                        script: "docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${CONTAINER_NAME}",
                         returnStdout: true
                     ).trim()
                     echo "Adresse IP du conteneur : ${env.CONTAINER_IP}"
