@@ -33,7 +33,7 @@ pipeline {
                     sh '''
                     docker stop ${CONTAINER_NAME} || true
                     docker rm ${CONTAINER_NAME} || true
-                    docker run -d --name ${CONTAINER_NAME} -p 8080:80 ${DOCKER_IMAGE}
+                    docker run -d --name ${CONTAINER_NAME} -p 10080:80 ${DOCKER_IMAGE}
                     '''
                 }
             }
@@ -42,7 +42,7 @@ pipeline {
         stage('Verify Deployment') {
             steps {
                 script {
-                    sh 'curl -I http://localhost:8080'
+                    sh 'curl -I http://localhost:10080'
                 }
             }
         }
